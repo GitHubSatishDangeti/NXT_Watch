@@ -1,0 +1,13 @@
+.side-container {
+  width: 20%;
+  /* margin-right: 10px; */
+  align-self: flex-start;
+}
+.home-sidebar-links {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+}
+.sidebar-links-icons {
+  margin-right: 10px;
+}

@@ -1,0 +1,19 @@
+.video-item-container {
+  width: 255px;
+  margin-top: 5px;
+  margin-right: 5px;
+  margin-left: 5px;
+  margin-bottom: 15px;
+}
+.video-item-thumbnail-description {
+  display: flex;
+  flex-direction: row;
+  align-items: flex-start;
+}
+.channel-image {
+  align-self: flex-start;
+}
+.video-title {
+  padding: 0px;
+  margin-top: 0px;
+}

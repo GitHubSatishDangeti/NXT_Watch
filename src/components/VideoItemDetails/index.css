@@ -1,0 +1,37 @@
+.video-container-route {
+  display: flex;
+  flex-direction: row;
+  padding-left: 1%;
+}
+.icons-container {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+}
+.description-section {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+}
+.video-bottom-section {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+}
+.video-route-container {
+  padding-right: 20px;
+}
+.home-sidebar-links-video-route {
+  margin-right: 25px;
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+}
+.like-dislike-button {
+  border-style: none;
+  background-color: transparent;
+  color: blue;
+}
