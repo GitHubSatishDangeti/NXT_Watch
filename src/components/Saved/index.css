@@ -1,13 +1,13 @@
-.trending-container {
+.saved-container {
   display: flex;
   flex-direction: row;
   padding-left: 1%;
 }
-.trending-content-container {
+.saved-content-container {
   width: 100%;
   padding-right: 2%;
 }
-.header {
+.saved-header {
   display: flex;
   flex-direction: row;
   align-items: center;
@@ -15,7 +15,7 @@
   width: 100%;
   padding-left: 6%;
 }
-.header-icon-container {
+.saved-header-icon-container {
   border-radius: 50%;
   background-color: darkgrey;
   margin-right: 20px;
@@ -26,10 +26,10 @@
   align-items: center;
   justify-content: center;
 }
-.trending-list {
-  background-color: darkseagreen;
-  padding-top: 3%;
-  margin-top: 0px;
-  height: 80vh;
-  overflow: auto;
+.no-saved-videos {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  margin-top: 6%;
 }

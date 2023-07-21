@@ -1,7 +1,10 @@
 .side-container {
-  width: 20%;
+  width: 25%;
+  display: flex;
+  flex-direction: column;
   /* margin-right: 10px; */
-  align-self: flex-start;
+  justify-content: space-between;
+  height: 90vh;
 }
 .home-sidebar-links {
   display: flex;
@@ -10,4 +13,13 @@
 }
 .sidebar-links-icons {
   margin-right: 10px;
+}
+.sidebar-social-media-links {
+  margin-right: 3%;
+}
+.enjoy-para {
+  padding-right: 30px;
+}
+.sidebar-bottom-section {
+  padding-bottom: 5%;
 }

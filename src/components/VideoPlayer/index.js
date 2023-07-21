@@ -16,10 +16,10 @@ class VideoPlayer extends Component {
   render() {
     const {isPlaying} = this.state
     const btnText = isPlaying ? 'Pause' : 'Play'
-    console.log('ok')
+    // console.log('ok')
     const {data} = this.props
     const {videoUrl} = data
-    console.log(videoUrl)
+    // console.log(videoUrl)
 
     const videoURL = videoUrl
 

@@ -1,39 +1,41 @@
 import {Link} from 'react-router-dom'
 import './index.css'
 
-const TrendingVideoItem = props => {
+const SavedVideoItem = props => {
   const {itemDetails} = props
+
   const {
-    channelId,
-    title,
-    thumbnailUrl,
+    videoId,
+    videoTitle,
+    videoThumbnailUrl,
     channelName,
-    // channelProfileImage,
-    viewCount,
-    publishedAt,
+    videoViewCount,
+    videoPublishedAt,
+    saved,
   } = itemDetails
 
-  const publishedDate = new Date(publishedAt)
+  const publishedDate = new Date(videoPublishedAt)
   const yearsDifference = new Date().getFullYear() - publishedDate.getFullYear()
 
   return (
-    <Link className="link" to={`/videos/${channelId}`}>
+    <Link to={`/videos/${videoId}`}>
       <li className="video-item-list">
         <div className="trending-video-container">
           <img
             className="img"
             width="450px"
-            src={thumbnailUrl}
+            height="300px"
+            src={videoThumbnailUrl}
             alt="video thumbnail"
           />
           <div>
-            <p>{title}</p>
+            <p>{videoTitle}</p>
             <p>{channelName}</p>
-            <p>{`${viewCount} views ${yearsDifference} years ago`}</p>
+            <p>{`${videoViewCount} views . ${yearsDifference} years ago`}</p>
           </div>
         </div>
       </li>
     </Link>
   )
 }
-export default TrendingVideoItem
+export default SavedVideoItem

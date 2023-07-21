@@ -1,5 +1,6 @@
 import {Component} from 'react'
 import Cookies from 'js-cookie'
+import Loader from 'react-loader-spinner'
 import {
   AiTwotoneLike,
   AiTwotoneDislike,
@@ -12,6 +13,7 @@ import Header from '../Header'
 import VideoPlayer from '../VideoPlayer'
 import './index.css'
 import SideBar from '../SideBar'
+import Context from '../../Context/Context'
 
 class videoItemDetails extends Component {
   state = {
@@ -25,6 +27,7 @@ class videoItemDetails extends Component {
 
   componentDidMount() {
     this.getVideoDetails()
+    // this.checkVideoInSavedList()
   }
 
   getVideoDetails = () => {
@@ -70,115 +73,198 @@ class videoItemDetails extends Component {
   }
 
   onLike = () => {
-    this.setState({
-      likeIsActive: true,
+    this.setState(prev => ({
+      likeIsActive: !prev.likeIsActive,
       disLikeIsActive: false,
-    })
+    }))
   }
 
   onDisLike = () => {
-    this.setState({
-      disLikeIsActive: true,
+    this.setState(prev => ({
+      disLikeIsActive: !prev.disLikeIsActive,
       likeIsActive: false,
-    })
+    }))
   }
 
   render() {
-    const {data, disLikeIsActive, isSaved, likeIsActive} = this.state
-    const {
-      videoId,
-      videoTitle,
-      videoUrl,
-      videoThumbnailUrl,
-      videoDescription,
-      channelName,
-      channelProfileImageUrl,
-      subscriptionCount,
-      videoViewCount,
-      videoPublishedAt,
-    } = data
-
-    const publishedDate = new Date(videoPublishedAt)
-    const yearsDifference =
-      new Date().getFullYear() - publishedDate.getFullYear()
     // const {videoUrl} = data
-    return (
-      <div>
-        <Header />
-        <div className="video-container-route">
-          <SideBar />
-          <div className="video-route-container">
-            <VideoPlayer data={data} />
-            <p>{videoTitle}</p>
-            <div className="description-section">
-              <p>{`${videoViewCount} views . ${yearsDifference} years ago`}</p>
-              <div className="icons-container">
-                <div className="home-sidebar-links-video-route">
-                  <button
-                    id="like"
-                    className="like-dislike-button"
-                    onClick={this.onLike}
-                    type="button"
-                  >
-                    {likeIsActive ? (
-                      <AiTwotoneLike
-                        className="sidebar-links-icons"
-                        size={20}
-                      />
-                    ) : (
-                      <AiOutlineLike
-                        className="sidebar-links-icons"
-                        size={20}
-                      />
-                    )}
-                  </button>
-                  <label htmlFor="like">Like</label>
-                </div>
-                <div className="home-sidebar-links-video-route">
-                  <button
-                    id="dislike"
-                    className="like-dislike-button"
-                    onClick={this.onDisLike}
-                    type="button"
-                  >
-                    {disLikeIsActive ? (
-                      <AiTwotoneDislike
-                        className="sidebar-links-icons"
-                        size={20}
-                      />
-                    ) : (
-                      <AiOutlineDislike
-                        className="sidebar-links-icons"
-                        size={20}
-                      />
-                    )}
-                  </button>
-                  <label htmlFor="dislike">Dislike</label>
-                </div>
-                <div className="home-sidebar-links-video-route">
-                  <AiOutlineMenuUnfold className="sidebar-links-icons" />
-                  <p>Save</p>
-                </div>
-              </div>
-            </div>
-            <hr />
 
-            <div className="video-bottom-section">
+    return (
+      <Context.Consumer>
+        {value => {
+          const {savedVideoList, addVideo, removeVideo} = value
+
+          const {
+            apiStatus,
+            data,
+            disLikeIsActive,
+            isSaved,
+            likeIsActive,
+          } = this.state
+
+          const {
+            videoId,
+            videoTitle,
+            videoUrl,
+            videoThumbnailUrl,
+            videoDescription,
+            channelName,
+            channelProfileImageUrl,
+            subscriptionCount,
+            videoViewCount,
+            videoPublishedAt,
+            saved,
+          } = data
+
+          const publishedDate = new Date(videoPublishedAt)
+          const yearsDifference =
+            new Date().getFullYear() - publishedDate.getFullYear()
+
+          const removeOrAdd = () => {
+            if (isSaved === true) {
+              removeVideo(videoId)
+            } else {
+              addVideo({...data, saved: true})
+            }
+          }
+
+          const onSaved = () => {
+            this.setState(prev => ({isSaved: !prev.isSaved}))
+            removeOrAdd()
+          }
+
+          const renderLoadingView = () => (
+            <div className="loader-container align" data-testid="loader">
+              <Loader type="ThreeDots" color="green" height="50" width="50" />
+            </div>
+          )
+
+          const onRetry = () => {
+            this.getVideoDetails()
+          }
+
+          const renderFailureView = () => (
+            <div className="videoItem-failure-view">
               <img
-                className="channel-image"
-                width="50px"
-                src={channelProfileImageUrl}
-                alt="channelProfileImage"
+                src="https://assets.ccbp.in/frontend/react-js/nxt-watch-failure-view-light-theme-img.png"
+                alt="failure view"
+                width="250px"
               />
-              <div>
-                <p className="video-title">{channelName}</p>
-                <p>{subscriptionCount} subscribers</p>
-                <p>{videoDescription}</p>
+              <h1>Oops! Something Went Wrong</h1>
+              <p>
+                We are having some trouble to complete your request. Please try
+                again.
+              </p>
+              <button onClick={onRetry} type="button">
+                Retry
+              </button>
+            </div>
+          )
+
+          const renderVideos = () => (
+            <div className="video-route-container">
+              <VideoPlayer data={data} />
+              <p>{videoTitle}</p>
+              <div className="description-section">
+                <p>{`${videoViewCount} views . ${yearsDifference} years ago`}</p>
+                <div className="icons-container">
+                  <div className="home-sidebar-links-video-route">
+                    <button
+                      id="like"
+                      className="like-dislike-button"
+                      onClick={this.onLike}
+                      type="button"
+                    >
+                      {likeIsActive ? (
+                        <AiTwotoneLike
+                          className="sidebar-links-icons activeColor"
+                          size={20}
+                        />
+                      ) : (
+                        <AiOutlineLike
+                          className="sidebar-links-icons inactiveColor"
+                          size={20}
+                        />
+                      )}
+                      Like
+                    </button>
+                  </div>
+                  <div className="home-sidebar-links-video-route">
+                    <button
+                      id="dislike"
+                      className="like-dislike-button"
+                      onClick={this.onDisLike}
+                      type="button"
+                    >
+                      {disLikeIsActive ? (
+                        <AiTwotoneDislike
+                          className="sidebar-links-icons activeColor"
+                          size={20}
+                        />
+                      ) : (
+                        <AiOutlineDislike
+                          className="sidebar-links-icons inactiveColor"
+                          size={20}
+                        />
+                      )}
+                      Dislike
+                    </button>
+                  </div>
+                  <div className="home-sidebar-links-video-route">
+                    <button
+                      onClick={onSaved}
+                      className="like-dislike-button"
+                      type="button"
+                    >
+                      <AiOutlineMenuUnfold className="sidebar-links-icons" />
+                      {isSaved ? 'Saved' : 'Save'}
+                    </button>
+                  </div>
+                </div>
+              </div>
+              <hr />
+
+              <div className="video-bottom-section">
+                <img
+                  className="channel-image"
+                  width="50px"
+                  src={channelProfileImageUrl}
+                  alt="channel logo"
+                />
+                <div>
+                  <p className="video-title">{channelName}</p>
+                  <p>{subscriptionCount} subscribers</p>
+                  <p>{videoDescription}</p>
+                </div>
               </div>
             </div>
-          </div>
-        </div>
-      </div>
+          )
+
+          const renderResult = () => {
+            console.log(apiStatus)
+            switch (apiStatus) {
+              case 'success':
+                return renderVideos()
+              case 'loading':
+                return renderLoadingView()
+              case 'failure':
+                return renderFailureView()
+              default:
+                return null
+            }
+          }
+
+          return (
+            <div>
+              <Header />
+              <div className="video-container-route">
+                <SideBar />
+                {renderResult()}
+              </div>
+            </div>
+          )
+        }}
+      </Context.Consumer>
     )
   }
 }

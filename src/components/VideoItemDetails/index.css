@@ -17,11 +17,12 @@
 .video-bottom-section {
   display: flex;
   flex-direction: row;
-  justify-content: space-between;
+
   align-items: center;
 }
 .video-route-container {
   padding-right: 20px;
+  width: 100%;
 }
 .home-sidebar-links-video-route {
   margin-right: 25px;
@@ -33,5 +34,25 @@
 .like-dislike-button {
   border-style: none;
   background-color: transparent;
-  color: blue;
+}
+.channel-image {
+  margin-right: 15px;
+}
+.videoItem-failure-view {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+.align {
+  text-align: center;
+  margin-top: 15%;
+  width: 100%;
+}
+.activeColor {
+  color: #64748b;
+}
+.inactiveColor {
+  color: #2563eb;
 }

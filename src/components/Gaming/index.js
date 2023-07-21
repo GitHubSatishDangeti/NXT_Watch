@@ -1,23 +1,23 @@
 import {Component} from 'react'
 import Cookies from 'js-cookie'
-import {HiFire} from 'react-icons/hi'
+import {SiYoutubegaming} from 'react-icons/si'
 import Loader from 'react-loader-spinner'
 import './index.css'
 import SideBar from '../SideBar'
 import Header from '../Header'
-import TrendingVideoItem from '../TrendingVideoItem'
+import GamingVideoItem from '../GamingVideoItem'
 
-class Trending extends Component {
+class Gaming extends Component {
   state = {apiStatus: 'initial', data: []}
 
   componentDidMount() {
-    this.getTrendingData()
+    this.getGamingData()
   }
 
-  getTrendingData = async () => {
+  getGamingData = async () => {
     this.setState({apiStatus: 'loading'})
     const token = Cookies.get('jwt_token')
-    const url = 'https://apis.ccbp.in/videos/trending'
+    const url = 'https://apis.ccbp.in/videos/gaming'
     const options = {
       method: 'GET',
       headers: {
@@ -32,10 +32,7 @@ class Trending extends Component {
         channelId: i.id,
         title: i.title,
         thumbnailUrl: i.thumbnail_url,
-        channelName: i.channel.name,
-        channelProfileImage: i.channel.profile_image_url,
         viewCount: i.view_count,
-        publishedAt: i.published_at,
       }))
       //   console.log(formattedData)
 
@@ -46,7 +43,7 @@ class Trending extends Component {
   }
 
   onRetry = () => {
-    this.getTrendingData()
+    this.getGamingData()
   }
 
   renderLoadingView = () => (
@@ -60,7 +57,6 @@ class Trending extends Component {
       <img
         src="https://assets.ccbp.in/frontend/react-js/nxt-watch-failure-view-light-theme-img.png"
         alt="failure view"
-        width="250px"
       />
       <h1>Oops! Something Went Wrong</h1>
       <p>
@@ -79,12 +75,11 @@ class Trending extends Component {
 
     return (
       <div>
-        <ul className="trending-list">
+        <ul className="gaming-video-item-list">
           {data.map(i => (
-            <TrendingVideoItem key={i.channelId} itemDetails={i} />
+            <GamingVideoItem key={i.channelId} itemDetails={i} />
           ))}
         </ul>
-        )
       </div>
     )
   }
@@ -108,14 +103,14 @@ class Trending extends Component {
     return (
       <div>
         <Header />
-        <div className="trending-container">
+        <div className="gaming-container">
           <SideBar />
-          <div className="trending-content-container">
+          <div className="gaming-content-container">
             <header className="header">
-              <div className="header-icon-container">
-                <HiFire color="red" size={25} />
+              <div className="gaming-header-icon-container">
+                <SiYoutubegaming color="red" size={25} />
               </div>
-              <h1>Trending</h1>
+              <h1>Gaming</h1>
             </header>
             {this.renderResult()}
           </div>
@@ -124,4 +119,4 @@ class Trending extends Component {
     )
   }
 }
-export default Trending
+export default Gaming

@@ -24,7 +24,7 @@ class Login extends Component {
 
   onSubmitForm = async event => {
     event.preventDefault()
-    console.log('ok')
+    // console.log('ok')
     const {username, password} = this.state
     const userDetails = {username, password}
     const url = 'https://apis.ccbp.in/login'
@@ -35,7 +35,7 @@ class Login extends Component {
     const response = await fetch(url, options)
     if (response.ok === true) {
       const data = await response.json()
-      console.log(data)
+      //   console.log(data)
       this.onSubmitSuccess(data.jwt_token)
     } else {
       this.setState({isError: true, username: '', password: ''})
@@ -56,16 +56,27 @@ class Login extends Component {
     const {username, password, showPassword, isError} = this.state
     const passwordType = showPassword ? 'text' : 'password'
     return (
-      <div>
-        <div>
-          <form onSubmit={this.onSubmitForm} type="submit">
-            <img
-              src="https://assets.ccbp.in/frontend/react-js/nxt-watch-logo-dark-theme-img.png"
-              alt=""
-            />
-            <div>
-              <label htmlFor="username">USERNAME</label>
+      <div className="login-bg">
+        <div className="form">
+          <form
+            className="form-items"
+            onSubmit={this.onSubmitForm}
+            type="submit"
+          >
+            <div className="login-img">
+              <img
+                src="https://assets.ccbp.in/frontend/react-js/nxt-watch-logo-light-theme-img.png"
+                alt=""
+                width="200px"
+              />
+            </div>
+            <div className="username-password-container">
+              <label className="login-label" htmlFor="username">
+                USERNAME
+              </label>
+
               <input
+                className="login-input"
                 onChange={this.onUsernameChange}
                 value={username}
                 placeholder="Username"
@@ -73,9 +84,13 @@ class Login extends Component {
                 type="text"
               />
             </div>
-            <div>
-              <label htmlFor="password">PASSWORD</label>
+            <div className="username-password-container">
+              <label className="login-label" htmlFor="password">
+                PASSWORD
+              </label>
+
               <input
+                className="login-input"
                 onChange={this.onPasswordChange}
                 value={password}
                 placeholder="Password"
@@ -93,7 +108,9 @@ class Login extends Component {
                 Show Password
               </label>
             </div>
-            <button type="submit">Login</button>
+            <button className="login-button" type="submit">
+              Login
+            </button>
           </form>
           {!isError ? null : <p>{`Username and Password didn't match`}</p>}
         </div>

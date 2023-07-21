@@ -1,5 +1,6 @@
 import {Component} from 'react'
 import Cookies from 'js-cookie'
+import Loader from 'react-loader-spinner'
 import {Link} from 'react-router-dom'
 import {AiOutlineSearch, AiOutlineClose} from 'react-icons/ai'
 
@@ -40,7 +41,7 @@ class Home extends Component {
         title: i.title,
         viewCount: i.view_count,
       }))
-      console.log(formattedData)
+      //   console.log(formattedData)
 
       this.setState({apiStatus: 'success', data: formattedData})
     } else {
@@ -60,10 +61,86 @@ class Home extends Component {
     this.setState({hideBanner: true})
   }
 
+  onRetry = () => {
+    this.getData()
+  }
+
+  renderNoResults = () => (
+    <div className="no-search-results">
+      <img
+        src="https://assets.ccbp.in/frontend/react-js/nxt-watch-no-search-results-img.png"
+        alt="no videos"
+        width="50%"
+      />
+      <h1>No Search results found</h1>
+      <p>Try different key words or remove search filter</p>
+      <button onClick={this.onRetry} type="button">
+        Retry
+      </button>
+    </div>
+  )
+
+  renderLoadingView = () => (
+    <div className="loader-container align" data-testid="loader">
+      <Loader type="ThreeDots" color="green" height="50" width="50" />
+    </div>
+  )
+
+  renderFailureView = () => (
+    <div className="failure-view">
+      <img
+        src="https://assets.ccbp.in/frontend/react-js/nxt-watch-failure-view-light-theme-img.png"
+        alt="failure view"
+      />
+      <h1>Oops! Something Went Wrong</h1>
+      <p>
+        We are having some trouble to complete your request.
+        <br />
+        Please try again.
+      </p>
+      <button onClick={this.onRetry} type="button">
+        Retry
+      </button>
+    </div>
+  )
+
+  renderVideosView = () => {
+    const {data} = this.state
+    const zeroData = data.length === 0
+
+    return (
+      <div>
+        {zeroData ? (
+          this.renderNoResults()
+        ) : (
+          <ul className="video-list">
+            {data.map(i => (
+              <VideoItem key={i.channelId} itemDetails={i} />
+            ))}
+          </ul>
+        )}
+      </div>
+    )
+  }
+
+  renderResult = () => {
+    const {apiStatus} = this.state
+
+    switch (apiStatus) {
+      case 'success':
+        return this.renderVideosView()
+      case 'loading':
+        return this.renderLoadingView()
+      case 'failure':
+        return this.renderFailureView()
+      default:
+        return null
+    }
+  }
+
   render() {
-    const {match} = this.props
-    console.log(match)
     const {data, apiStatus, searchInput, hideBanner} = this.state
+
     return (
       <div>
         <Header />
@@ -71,11 +148,11 @@ class Home extends Component {
           <SideBar />
           <div className="home-container">
             {hideBanner ? null : (
-              <BgContainerHome>
+              <BgContainerHome data-testid="banner">
                 <div>
                   <img
                     src="https://assets.ccbp.in/frontend/react-js/nxt-watch-logo-light-theme-img.png"
-                    alt="logo"
+                    alt="nxt watch logo"
                     width="200px"
                   />
                   <p>Buy Nxt Watch Premium prepaid plans with UPI</p>
@@ -83,6 +160,7 @@ class Home extends Component {
                 </div>
                 <div>
                   <button
+                    data-testid="close"
                     className="close-button-home"
                     onClick={this.onClickClose}
                     type="button"
@@ -101,16 +179,16 @@ class Home extends Component {
                   value={searchInput}
                   type="search"
                 />
-                <button onClick={this.onSearchClick} type="button">
+                <button
+                  data-testid="searchButton"
+                  onClick={this.onSearchClick}
+                  type="button"
+                >
                   <AiOutlineSearch />
                 </button>
               </div>
 
-              <ul className="video-list">
-                {data.map(i => (
-                  <VideoItem key={i.channelId} itemDetails={i} />
-                ))}
-              </ul>
+              {this.renderResult()}
             </div>
           </div>
         </div>

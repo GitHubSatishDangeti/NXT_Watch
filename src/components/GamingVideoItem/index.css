@@ -1,0 +1,10 @@
+.gaming-video-container {
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 15px;
+}
+
+.video-item-list {
+  display: flex;
+  list-style-type: none;
+}

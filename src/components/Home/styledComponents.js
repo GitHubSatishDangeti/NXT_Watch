@@ -2,7 +2,7 @@ import styled from 'styled-components'
 
 export const BgContainerHome = styled.div`
   background-image: url('https://assets.ccbp.in/frontend/react-js/nxt-watch-banner-bg.png');
-  height: 200px;
+  height: 25vh;
 
   background-size: cover;
   display: flex;

@@ -17,16 +17,16 @@ const VideoItem = props => {
   const yearsDifference = new Date().getFullYear() - publishedDate.getFullYear()
 
   return (
-    <Link to={`/videos/${channelId}`}>
+    <Link className="link" to={`/videos/${channelId}`}>
       <li>
         <div className="video-item-container">
-          <img width="250px" src={thumbnailUrl} alt="thumbnail" />
+          <img width="250px" src={thumbnailUrl} alt="video thumbnail" />
           <div className="video-item-thumbnail-description">
             <img
               className="channel-image"
               width="50px"
               src={channelProfileImage}
-              alt="channelProfileImage"
+              alt="channel logo"
             />
             <div>
               <p className="video-title">{title}</p>
