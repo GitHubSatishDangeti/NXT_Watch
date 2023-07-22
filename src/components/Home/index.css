@@ -10,8 +10,8 @@
   display: flex;
   flex-direction: row;
   align-items: flex-start;
-  padding-left: 1%;
   padding-right: 1%;
+
   width: 100%;
 }
 .side-container {
@@ -23,10 +23,16 @@
   width: 100%;
 }
 .home-videos-section {
-  background-color: #f4f4f4;
   height: 65vh;
   overflow: auto;
 }
+.home-dark-theme {
+  background-color: #181818;
+}
+.home-light-theme {
+  background-color: #ebebeb;
+}
+
 .video-list {
   display: flex;
   flex-wrap: wrap;

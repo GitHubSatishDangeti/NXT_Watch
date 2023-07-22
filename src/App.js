@@ -12,7 +12,7 @@ import Context from './Context/Context'
 import NotFound from './components/NotFound'
 
 class App extends Component {
-  state = {savedVideoList: []}
+  state = {savedVideoList: [], darkTheme: false}
 
   addVideo = video => {
     const {savedVideoList} = this.state
@@ -30,15 +30,21 @@ class App extends Component {
     this.setState({savedVideoList: newList})
   }
 
+  changeTheme = () => {
+    this.setState(prev => ({darkTheme: !prev.darkTheme}))
+  }
+
   render() {
-    const {savedVideoList} = this.state
+    const {savedVideoList, darkTheme} = this.state
     console.log(savedVideoList)
     return (
       <Context.Provider
         value={{
           savedVideoList,
+          darkTheme,
           addVideo: this.addVideo,
           removeVideo: this.removeVideo,
+          changeTheme: this.changeTheme,
         }}
       >
         <Switch>

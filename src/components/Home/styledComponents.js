@@ -8,4 +8,6 @@ export const BgContainerHome = styled.div`
   display: flex;
   flex-direction: row;
   justify-content: space-between;
+  padding-left: 2%;
+  padding-top: 2%;
 `

@@ -9,6 +9,7 @@ import './index.css'
 import {BgContainerHome} from './styledComponents'
 import VideoItem from '../VideoItem'
 import SideBar from '../SideBar'
+import Context from '../../Context/Context'
 
 class Home extends Component {
   state = {searchInput: '', apiStatus: 'initial', data: [], hideBanner: false}
@@ -142,57 +143,70 @@ class Home extends Component {
     const {data, apiStatus, searchInput, hideBanner} = this.state
 
     return (
-      <div>
-        <Header />
-        <div className="main-container-home">
-          <SideBar />
-          <div className="home-container">
-            {hideBanner ? null : (
-              <BgContainerHome data-testid="banner">
-                <div>
-                  <img
-                    src="https://assets.ccbp.in/frontend/react-js/nxt-watch-logo-light-theme-img.png"
-                    alt="nxt watch logo"
-                    width="200px"
-                  />
-                  <p>Buy Nxt Watch Premium prepaid plans with UPI</p>
-                  <button type="button">GET IT NOW</button>
-                </div>
-                <div>
-                  <button
-                    data-testid="close"
-                    className="close-button-home"
-                    onClick={this.onClickClose}
-                    type="button"
+      <Context.Consumer>
+        {value => {
+          const {darkTheme} = value
+
+          return (
+            <div>
+              <Header />
+              <div className="main-container-home">
+                <SideBar />
+                <div className="home-container">
+                  {hideBanner ? null : (
+                    <BgContainerHome data-testid="banner">
+                      <div>
+                        <img
+                          src="https://assets.ccbp.in/frontend/react-js/nxt-watch-logo-light-theme-img.png"
+                          alt="nxt watch logo"
+                          width="200px"
+                        />
+                        <p>Buy Nxt Watch Premium prepaid plans with UPI</p>
+                        <button type="button">GET IT NOW</button>
+                      </div>
+                      <div>
+                        <button
+                          data-testid="close"
+                          className="close-button-home"
+                          onClick={this.onClickClose}
+                          type="button"
+                        >
+                          <AiOutlineClose />
+                        </button>
+                      </div>
+                    </BgContainerHome>
+                  )}
+
+                  <div
+                    data-testid="home"
+                    className={`home-videos-section ${
+                      darkTheme ? 'home-dark-theme' : 'home-light-theme'
+                    }`}
                   >
-                    <AiOutlineClose />
-                  </button>
+                    <div className="search-section">
+                      <input
+                        onChange={this.onSearchInput}
+                        placeholder="Search"
+                        value={searchInput}
+                        type="search"
+                      />
+                      <button
+                        data-testid="searchButton"
+                        onClick={this.onSearchClick}
+                        type="button"
+                      >
+                        <AiOutlineSearch />
+                      </button>
+                    </div>
+
+                    {this.renderResult()}
+                  </div>
                 </div>
-              </BgContainerHome>
-            )}
-
-            <div className="home-videos-section">
-              <div className="search-section">
-                <input
-                  onChange={this.onSearchInput}
-                  placeholder="Search"
-                  value={searchInput}
-                  type="search"
-                />
-                <button
-                  data-testid="searchButton"
-                  onClick={this.onSearchClick}
-                  type="button"
-                >
-                  <AiOutlineSearch />
-                </button>
               </div>
-
-              {this.renderResult()}
             </div>
-          </div>
-        </div>
-      </div>
+          )
+        }}
+      </Context.Consumer>
     )
   }
 }

@@ -8,11 +8,21 @@
   padding-top: 1%;
   padding-bottom: 1%;
 }
+.navbar-dark-bg {
+  background-color: #212121;
+}
+
+.navbar-light-bg {
+  background-color: #ffffff;
+}
+
 .nav-options {
   display: flex;
   flex-direction: row;
-  justify-content: space-between;
+
   align-items: center;
+  margin-top: 0px;
+  margin-bottom: 0px;
 }
 .navbar-option {
   margin-right: 10px;
@@ -44,4 +54,8 @@
 }
 .pop-up-para {
   color: #00306e;
+}
+.theme-button {
+  border-style: none;
+  background-color: transparent;
 }

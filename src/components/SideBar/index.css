@@ -5,7 +5,16 @@
   /* margin-right: 10px; */
   justify-content: space-between;
   height: 90vh;
+  padding-left: 1%;
 }
+.sidebar-dark-theme {
+  background-color: #231f20;
+}
+
+.sidebar-light-theme {
+  background-color: #ffffff;
+}
+
 .home-sidebar-links {
   display: flex;
   flex-direction: row;

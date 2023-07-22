@@ -66,7 +66,7 @@ class Login extends Component {
             <div className="login-img">
               <img
                 src="https://assets.ccbp.in/frontend/react-js/nxt-watch-logo-light-theme-img.png"
-                alt=""
+                alt="website logo"
                 width="200px"
               />
             </div>
